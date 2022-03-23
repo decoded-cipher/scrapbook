@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 var express = require('express');
 var hbs = require('express-handlebars');
 
@@ -17,4 +19,6 @@ app.use(express.static(__dirname + '/public'));
 app.use('/', Router);
 
 module.exports = app;
-app.listen(process.env.PORT | 3000);
+app.listen(process.env.PORT | 3000, () => {
+    console.log(`Server is running on PORT ${process.env.PORT}`);
+})
