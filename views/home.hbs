@@ -1,6 +1,10 @@
     <section class="container">
         <div class="my-5">
 
+            <h1 class="text-center pt-5">INOVUS SCRAPBOOK</h1>
+            <h6 class="text-center text-muted pt-1 pb-5">A daily diary for Inovus Fellows to scribble about their
+                self-learning endeavors.</h6>
+
             <div class="row" data-masonry='{"percentPosition": true }'>
 
                 {{#each scraps}}
@@ -14,8 +18,10 @@
                                 </div>
 
                                 <div class="col-md-auto">
-                                    <h6 style="margin: 0px;">{{this.user.name}}</h6>
-                                    <small class="text-muted">Thu, Mar 24</small>
+                                    <a target="blank" href="https://discordapp.com/users/{{this.user.id}}">
+                                        <h6 style="margin: 0px;">{{this.user.name}}</h6>
+                                    </a>
+                                    <small class="text-muted">{{this.ago}}</small>
                                 </div>
                             </div>
                         </div>
@@ -28,10 +34,10 @@
                         <div class="card-footer">
                             <div class="row my-3">
                                 <div class="col-md-6">
-                                    <a href="#" class="btn btn-primary" style="width: 100%;">Like</a>
+                                    <a href="#" class="btn btn-primary py-2" style="width: 100%;">Like</a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="#" class="btn btn-primary" style="width: 100%;">Share</a>
+                                    <a href="#" class="btn btn-primary py-2" style="width: 100%;">Share</a>
                                 </div>
                             </div>
                         </div>
