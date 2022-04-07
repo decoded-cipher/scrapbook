@@ -5,18 +5,18 @@ var ago = require('s-ago');
 var helper = require('./helper');
 
 router.get('/', (req, res) => {
-    helper.getAllScraps().then((scraps) => {
+    helper.getAllScraps().then( async (scraps) => {
 
-        var scraps = Object.keys(scraps).map((key) => {
+        var scraps = await Object.keys(scraps).map((key) => {
             return scraps[key];
         })
 
-        scraps.forEach(x => {
+        await scraps.forEach(x => {
             x.ago = ago(new Date(x.createdAt));
             // console.log(x.ago);
         });
 
-        res.render('home', {scraps})
+        await res.render('home', {scraps})
         // console.log(scraps);
 
     })
