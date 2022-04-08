@@ -29,8 +29,15 @@
                         <div class="card-body">
                             <p class="card-text">{{this.content}}</p>
                         </div>
-                        <img src="{{this.attachment.url}}" class="p-2" alt="...">
-                        {{!-- <iframe src="{{this.attachment.url}}" allowfullscreen class="p-2"></iframe> --}}
+
+                        {{#if this.isImage}}
+                            <img src="{{this.attachment.url}}" class="p-2" alt="...">
+                        {{else if this.isVideo}}
+                            <video class="p-2" controls autoplay>
+                                <source src="{{this.attachment.url}}" type="video/mp4">
+                            </video>
+                        {{/if}}
+                        
                         <div class="card-footer">
                             <div class="row my-3">
                                 <div class="col-md-6">
