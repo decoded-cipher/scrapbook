@@ -10,9 +10,10 @@
                 {{#each scraps}}
                 <div class="col-md-3 my-3">
                     <div class="card">
+                        
                         <div class="card-header">
-                            <div class="row my-3">
-                                <div class="col-md-3">
+                            <div class="row my-3 align-items-center">
+                                <div class="col-md-auto">
                                     <img src="https://cdn.discordapp.com/avatars/{{this.user.id}}/{{this.user.avatar}}.png"
                                         style="border-radius: 50%; height: 50px; width=auto;" alt="">
                                 </div>
@@ -40,11 +41,11 @@
                         
                         <div class="card-footer">
                             <div class="row my-3">
-                                <div class="col-md-6">
-                                    <a href="#" class="btn btn-primary py-2" style="width: 100%;">Like</a>
+                                <div class="col">
+                                    <a href="#" class="btn btn-primary py-2">Like</a>
                                 </div>
-                                <div class="col-md-6">
-                                    <a href="#" class="btn btn-primary py-2" style="width: 100%;">Share</a>
+                                <div class="col">
+                                    <a href="#" class="btn btn-primary py-2">Share</a>
                                 </div>
                             </div>
                         </div>

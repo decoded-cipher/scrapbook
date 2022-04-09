@@ -14,6 +14,7 @@ body::-webkit-scrollbar {
     border: 1.5px solid #7F7FD5;
     border-radius: 50px;
     color: #fff;
+    width: 100%;
 }
 
 .btn:hover,
@@ -45,4 +46,8 @@ body::-webkit-scrollbar {
 .card-header a:hover {
     text-decoration: none;
     color: #7F7FD5;
+}
+
+.col-md-auto {
+    width: auto;
 }
