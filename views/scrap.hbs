@@ -38,11 +38,11 @@
 
                     <div class="card-footer">
                         <div class="row my-3">
-                            <div class="col-md-6">
-                                <a href="#" class="btn btn-primary py-2" style="width: 100%;">Like</a>
+                            <div class="col-md-12 pb-2">
+                                <button type="button" class="btn btn-primary py-2">Download Scrap</button>
                             </div>
-                            <div class="col-md-6">
-                                <a href="#" class="btn btn-primary py-2" style="width: 100%;">Share</a>
+                            <div class="col-md-12 pt-2">
+                                <button type="button" class="btn btn-primary py-2" onclick="copyToClipboard()">Copy link to Clipboard</button>
                             </div>
                         </div>
                     </div>
@@ -51,3 +51,44 @@
             {{/with}}
 
     </section>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        async function copyToClipboard() {
+            try {
+                await navigator.clipboard.writeText(location.href);
+                Swal.fire({
+                    toast: true,
+                    position: 'top-right',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast'
+                    },
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    icon: 'success',
+                    title: 'Copied to Clipboard'
+
+                });
+
+            } catch (err) {
+
+                Swal.fire({
+                    toast: true,
+                    position: 'top-right',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast'
+                    },
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    icon: 'error',
+                    title: 'Failed to Copy to Clipboard'
+
+                });
+                console.error('Failed to copy: ', err);
+            }
+        }
+    </script>

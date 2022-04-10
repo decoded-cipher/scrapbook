@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.3.3",
     "firebase-admin": "^10.0.2",
-    "s-ago": "^2.2.0"
+    "s-ago": "^2.2.0",
+    "sweetalert2": "^11.4.8"
   }
 }
