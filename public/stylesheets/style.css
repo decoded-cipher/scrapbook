@@ -9,7 +9,9 @@ body::-webkit-scrollbar {
     display: none;
 }
 
-.btn {
+.btn,
+.btn:focus,
+.btn:active {
     background: none;
     border: 1.5px solid #7F7FD5;
     border-radius: 50px;
@@ -17,9 +19,7 @@ body::-webkit-scrollbar {
     width: 100%;
 }
 
-.btn:hover,
-.btn:focus,
-.btn:active {
+.btn:hover {
     background: #7F7FD5;
     background: linear-gradient(to right, #3c63cc, #661fdb);
     border: 1.5px solid #7F7FD5;
@@ -51,3 +51,11 @@ body::-webkit-scrollbar {
 .col-md-auto {
     width: auto;
 }
+
+.colored-toast.swal2-icon-success {
+    background-color: #a5dc86 !important;
+  }
+  
+  .colored-toast.swal2-icon-error {
+    background-color: #f27474 !important;
+  }
