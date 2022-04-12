@@ -28,11 +28,19 @@ router.get('/', (req, res) => {
 router.get('/scrap/:id', (req, res) => {
     helper.getScrapById(req.params.id).then((scrap) => {
 
-        helper.decideAttachmentType(scrap).then( (scrap) => {
+        helper.decideAttachmentType(scrap).then((scrap) => {
             res.render('scrap', { scrap });
             // console.log(scrap);
         })
 
+    })
+});
+
+
+router.post('/scrap/:id/like', (req, res) => {
+    helper.postScrapLikesCounter(req.body).then(async(response) => {
+        res.json(response);
+        // console.log(response);
     })
 });
 

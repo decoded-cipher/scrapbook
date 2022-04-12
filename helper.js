@@ -30,6 +30,36 @@ module.exports = {
                 x.isVideo = true;
             }
             resolve(x);
+            reject(new Error('Error while deciding attachment type'));
+        })
+    },
+
+    postScrapLikesCounter : (scrap) => {
+        return new Promise( async (resolve, reject) => {
+
+            // console.log(scrap);
+            config.ScrapData.child(scrap.id).child('likesCount').once('value', async (snapshot) => {
+                
+                var likesCount;
+                if (!snapshot.val()) {
+                    await config.ScrapData.child(scrap.id).child('likesCount').set(0);
+                    likesCount = 0;
+                } else {
+                    likesCount = snapshot.val();
+                }
+
+                scrap.likes = parseInt(scrap.likes);
+                if (scrap.likes == 1) {
+                    likesCount = likesCount + 1;
+                } else {
+                    likesCount = likesCount - 1;
+                }
+
+                await config.ScrapData.child(scrap.id).update({ likesCount: likesCount });
+                resolve(likesCount);
+                reject(new Error('Error while fetching Scrap Data'));
+            });
+
         })
     }
 

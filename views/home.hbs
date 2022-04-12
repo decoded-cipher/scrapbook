@@ -42,10 +42,12 @@
                         <div class="card-footer">
                             <div class="row my-3">
                                 <div class="col">
-                                    <a href="#" class="btn btn-primary py-2">Like</a>
+                                    <button class="btn btn-primary py-2" onclick="LikesUpdater( '{{this._id}}' , 1 )">
+                                        <span id={{this._id}} class="badge">{{this.likesCount}}</span> Like
+                                    </button>
                                 </div>
                                 <div class="col">
-                                    <a target="blank" href="{{process.env.BASE_URL}}/scrap/{{this._id}}" class="btn btn-primary py-2">Share</a>
+                                    <a target="blank" href="/scrap/{{this._id}}" class="btn btn-primary py-2">Share</a>
                                 </div>
                             </div>
                         </div>
@@ -55,3 +57,20 @@
 
             </div>
     </section>
+
+    <script>
+        function LikesUpdater(id, like) {
+            $.ajax({
+                url: '/scrap/:id/like',
+                type: 'POST',
+                data: {
+                    id: id,
+                    likes: like
+                },
+                success: (response) => {
+                    document.getElementById(id).innerHTML = response;
+                    // location.reload()
+                }
+            });
+        }
+    </script>

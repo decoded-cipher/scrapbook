@@ -19,7 +19,7 @@ body::-webkit-scrollbar {
     width: 100%;
 }
 
-.btn:hover {
+.btn:hover, .badge, .badge:focus, .badge:active {
     background: #7F7FD5;
     background: linear-gradient(to right, #3c63cc, #661fdb);
     border: 1.5px solid #7F7FD5;

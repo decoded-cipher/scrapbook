@@ -14,6 +14,7 @@ app.engine('hbs', hbs({
     layoutsDir: __dirname + '/views/layout/'
 }));
 
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 
 app.use('/', Router);
