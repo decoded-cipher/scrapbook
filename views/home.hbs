@@ -1,9 +1,19 @@
     <section class="container">
         <div class="my-5">
 
+              <div class="counter-wrapper">
+                
+                <div>Website visit count:</div>
+                <div class="website-counter">
+                    <div class="displayNum"></div>
+                </div>   
+            </div>
+
             <h1 class="text-center pt-5">INOVUS SCRAPBOOK</h1>
             <h6 class="text-center text-muted pt-1 pb-5">A daily diary for Inovus Fellows to scribble about their
                 self-learning endeavors.</h6>
+                
+               
 
             <div class="row" data-masonry='{"percentPosition": true }'>
 
@@ -55,3 +65,21 @@
 
             </div>
     </section>
+
+
+
+   <script>
+            var counterContainer = document.querySelector(".displayNum");
+            
+            var visitCount = localStorage.getItem("page_view");
+    
+            // Check if page_view entry is present
+            if (visitCount) {
+            visitCount = Number(visitCount) + 1;
+            localStorage.setItem("page_view", visitCount);
+            } else {
+                visitCount = 1;
+                localStorage.setItem("page_view", 1);
+            }
+            counterContainer.innerHTML = visitCount;
+       </script>

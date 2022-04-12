@@ -59,3 +59,33 @@ body::-webkit-scrollbar {
   .colored-toast.swal2-icon-error {
     background-color: #f27474 !important;
   }
+
+  .website-counter {
+    display: flex;
+    justify-content: center;
+    background-color: #ff4957;
+    left: 40px;
+    height: 50px;
+    width: 80px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 25px;
+    
+  }
+  .counter-wrapper{
+    height: 15%;
+    width: 20%;
+    text-align: center;
+    margin-left: auto;
+  }
+  .counter-wrapper > .website-counter{
+    margin: 0 auto;
+}
+  .displayNum{
+    margin-top: 5%;
+    color: white;
+    height: 50px;
+    width: 80px;
+    font-weight: 700;
+    font-size: 25px;
+  }
