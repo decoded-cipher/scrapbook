@@ -1,7 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+var bodyParser = require("body-parser");
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 var helper = require('./helper');
+
+router.post('/', urlencodedParser, (req, res) => {
+    helper.getVisitorId(req.body.visitorId);
+});
 
 router.get('/', (req, res) => {
     helper.getAllScraps().then( async (scraps) => {
