@@ -10,7 +10,7 @@
                 {{#each scraps}}
                 <div class="col-md-3 my-3">
                     <div class="card">
-                        
+
                         <div class="card-header">
                             <div class="row my-3 align-items-center">
                                 <div class="col-md-auto">
@@ -32,20 +32,22 @@
                         </div>
 
                         {{#if this.isImage}}
-                            <img src="{{this.attachment.url}}" class="p-2" alt="...">
+                        <img src="{{this.attachment.url}}" class="p-2" alt="...">
                         {{else if this.isVideo}}
-                            <video class="p-2" controls autoplay>
-                                <source src="{{this.attachment.url}}" type="video/mp4">
-                            </video>
+                        <video class="p-2" controls autoplay>
+                            <source src="{{this.attachment.url}}" type="video/mp4">
+                        </video>
                         {{/if}}
-                        
+
                         <div class="card-footer">
                             <div class="row my-3">
                                 <div class="col">
-                                    <a href="#" class="btn btn-primary py-2">Like</a>
+                                    <button class="btn btn-primary py-2" onclick="LikesUpdater( '{{this._id}}' )">
+                                        <span id={{this._id}} class="badge">{{this.likesCount}}</span> Like
+                                    </button>
                                 </div>
                                 <div class="col">
-                                    <a target="blank" href="{{process.env.BASE_URL}}/scrap/{{this._id}}" class="btn btn-primary py-2">Share</a>
+                                    <a target="blank" href="/scrap/{{this._id}}" class="btn btn-primary py-2">Share</a>
                                 </div>
                             </div>
                         </div>
@@ -55,3 +57,52 @@
 
             </div>
     </section>
+
+    <script>
+        
+        var visitorId;
+
+        (async () => {
+            await import('https://openfpcdn.io/fingerprintjs/v3')
+            .then(FingerprintJS => FingerprintJS.load())
+            .then(fp => fp.get())
+            .then(result => {
+                visitorId = result.visitorId;
+                localStorage.setItem('visitorId', visitorId);
+
+                // send visitorId to server
+                fetch('/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        visitorId: visitorId
+                    })
+                })
+                // console.log(visitorId)
+            })
+            .catch(err => console.log(err))
+        })();
+
+
+        function LikesUpdater(id) {
+            $.ajax({
+                url: '/scrap/:id/like',
+                type: 'POST',
+                data: {
+                    id: id,
+                    visitorId: visitorId,
+                },
+                success: (response) => {
+
+                    if (response.likesCount <= 0) {
+                        document.getElementById(id).remove();
+                    } else {
+                        document.getElementById(id).innerHTML = response.likesCount;
+                    }
+                    // location.reload()
+                }
+            });
+        }
+    </script>

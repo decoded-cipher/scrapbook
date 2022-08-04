@@ -8,12 +8,16 @@ var app = express();
 app.set('views', (__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.json())
+
 app.engine('hbs', hbs({
     extname: 'hbs',
     defaultLayout: 'index',
     layoutsDir: __dirname + '/views/layout/'
 }));
 
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 
 app.use('/', Router);

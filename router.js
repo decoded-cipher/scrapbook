@@ -1,7 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+var bodyParser = require("body-parser");
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 var helper = require('./helper');
+
+router.post('/', urlencodedParser, (req, res) => {
+    helper.getVisitorId(req.body.visitorId);
+});
 
 router.get('/', (req, res) => {
     helper.getAllScraps().then( async (scraps) => {
@@ -28,11 +35,19 @@ router.get('/', (req, res) => {
 router.get('/scrap/:id', (req, res) => {
     helper.getScrapById(req.params.id).then((scrap) => {
 
-        helper.decideAttachmentType(scrap).then( (scrap) => {
+        helper.decideAttachmentType(scrap).then((scrap) => {
             res.render('scrap', { scrap });
             // console.log(scrap);
         })
 
+    })
+});
+
+
+router.post('/scrap/:id/like', (req, res) => {
+    helper.postScrapLikesCounter(req.body).then(async(response) => {
+        res.json(response);
+        // console.log(response);
     })
 });
 
