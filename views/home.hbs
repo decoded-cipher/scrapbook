@@ -47,7 +47,7 @@
                                     </button>
                                 </div>
                                 <div class="col">
-                                    <a target="blank" href="/scrap/{{this._id}}" class="btn btn-primary py-2">Share</a>
+                                    <button class="btn btn-primary py-2" onclick="shareWithWebShareAPI( '{{this._id}}', '{{this.user.name}}' )">Share</button>
                                 </div>
                             </div>
                         </div>
@@ -104,4 +104,19 @@
                 }
             });
         }
+
+
+        function shareWithWebShareAPI(id, name) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Scrap | Inovus Scrapbook',
+                    text: 'Check out this awesome scrapwork by ' + name + ' on Inovus Scrapbook!',
+                    url: '/scrap/' + id,
+                    hashtag: '#InovusScrapbook'
+                })
+                .catch(error => console.log('Error sharing', error));
+            }
+        }
+
+
     </script>
