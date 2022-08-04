@@ -57,21 +57,26 @@ module.exports = {
                     }
 
                     if (likesArray.includes(scrap.visitorId)) {
+                        totalLikes = likesArray.length - 1;
                         await config.ScrapData.child(scrap.id).child('likes').child(key).remove();
-                        await config.ScrapData.child(scrap.id).child('likesCount').set(likesArray.length - 1);
+                        await config.ScrapData.child(scrap.id).child('likesCount').set(totalLikes);
 
-                        if (likesArray.length - 1 == 0) {
+                        if (totalLikes == 0) { 
                             await config.ScrapData.child(scrap.id).child('likesCount').remove();
                         }
                     } else {
+                        totalLikes = likesArray.length + 1;
                         await config.ScrapData.child(scrap.id).child('likes').push(scrap.visitorId);
-                        await config.ScrapData.child(scrap.id).child('likesCount').set(likesArray.length + 1);
+                        await config.ScrapData.child(scrap.id).child('likesCount').set(totalLikes);
                     }
                     
                 } else {
+                    var totalLikes = 1;
                     await config.ScrapData.child(scrap.id).child('likes').push(scrap.visitorId);
-                    await config.ScrapData.child(scrap.id).child('likesCount').set(1);
+                    await config.ScrapData.child(scrap.id).child('likesCount').set(totalLikes);
                 }
+
+                resolve(totalLikes);
             }).catch((err) => {
                 reject(err);
             })

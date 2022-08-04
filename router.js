@@ -62,9 +62,9 @@ router.get('/scrap/:id', (req, res) => {
 
 
 router.post('/scrap/:id/like', (req, res) => {
-    helper.postScrapLikesCounter(req.body).then(async (response) => {
-        res.json(response);
-        // console.log(response);
+    helper.postScrapLikesCounter(req.body).then(async (totalLikes) => {
+        res.json(totalLikes);
+        // console.log(totalLikes);
     })
 });
 

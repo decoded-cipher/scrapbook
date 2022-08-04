@@ -95,13 +95,12 @@
                     visitorId: visitorId,
                 },
                 success: (response) => {
-
-                    if (response.likesCount <= 0) {
-                        document.getElementById(id).remove();
+                    if (response <= 0) {
+                        $('#' + id).remove();
+                        location.reload();
                     } else {
-                        document.getElementById(id).innerHTML = response.likesCount;
+                        $('#' + id).text(response);
                     }
-                    // location.reload()
                 }
             });
         }
