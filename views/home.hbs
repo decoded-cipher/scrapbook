@@ -42,7 +42,7 @@
                         <div class="card-footer">
                             <div class="row my-3">
                                 <div class="col">
-                                    <button class="btn btn-primary py-2" onclick="checkLiked( '{{this._id}}' )">
+                                    <button class="btn btn-primary py-2" onclick="LikesUpdater( '{{this._id}}' )">
                                         <span id={{this._id}} class="badge">{{this.likesCount}}</span> Like
                                     </button>
                                 </div>
@@ -86,15 +86,7 @@
         })();
 
 
-        function checkLiked(id) {
-            if (localStorage.getItem("LikedScraps")) {
-                LikesUpdater(id, 0);
-            } else {
-                LikesUpdater(id, 1);
-            }
-        }
-
-        function LikesUpdater(id, like) {
+        function LikesUpdater(id) {
             $.ajax({
                 url: '/scrap/:id/like',
                 type: 'POST',
@@ -102,7 +94,7 @@
                     id: id,
                     visitorId: visitorId,
                 },
-                success: async (response) => {
+                success: (response) => {
 
                     if (response.likesCount <= 0) {
                         document.getElementById(id).remove();

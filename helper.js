@@ -58,12 +58,19 @@ module.exports = {
 
                     if (likesArray.includes(scrap.visitorId)) {
                         await config.ScrapData.child(scrap.id).child('likes').child(key).remove();
+                        await config.ScrapData.child(scrap.id).child('likesCount').set(likesArray.length - 1);
+
+                        if (likesArray.length - 1 == 0) {
+                            await config.ScrapData.child(scrap.id).child('likesCount').remove();
+                        }
                     } else {
                         await config.ScrapData.child(scrap.id).child('likes').push(scrap.visitorId);
+                        await config.ScrapData.child(scrap.id).child('likesCount').set(likesArray.length + 1);
                     }
                     
                 } else {
                     await config.ScrapData.child(scrap.id).child('likes').push(scrap.visitorId);
+                    await config.ScrapData.child(scrap.id).child('likesCount').set(1);
                 }
             }).catch((err) => {
                 reject(err);
