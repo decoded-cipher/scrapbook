@@ -76,6 +76,20 @@ module.exports = {
                 reject(err);
             })
         })
+    },
+
+    generateScrapMetaData : (scrap) => {
+        return new Promise((resolve, reject) => {
+            metadata = {
+                title: "Scrap | Inovus Scrapbook",
+                description: scrap.content,
+                image: scrap.attachment.url,
+                url: process.env.BASE_URL + "/scrap/" + scrap._id,
+                author: scrap.user.name
+            }
+            resolve(metadata);
+            reject(new Error('Error while generating metadata'));
+        })
     }
 
 }
