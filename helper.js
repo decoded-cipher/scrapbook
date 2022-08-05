@@ -28,10 +28,13 @@ module.exports = {
     decideAttachmentType : (x) => {
         return new Promise((resolve, reject) => {
             x.ago = ago(new Date(x.createdAt));
-            if (x.attachment.type == 'png' || x.attachment.type == 'jpg' || x.attachment.type == 'jpeg' || x.attachment.type == 'gif') {
-                x.isImage = true;
-            } else if (x.attachment.type == 'mp4') {
-                x.isVideo = true;
+
+            if (x.attachment) {
+                if (x.attachment.type == 'png' || x.attachment.type == 'jpg' || x.attachment.type == 'jpeg' || x.attachment.type == 'gif') {
+                    x.isImage = true;
+                } else if (x.attachment.type == 'mp4') {
+                    x.isVideo = true;
+                }
             }
 
             // check if x.content has any url, then return the url
@@ -95,6 +98,40 @@ module.exports = {
             resolve(metadata);
             reject(new Error('Error while generating metadata'));
         })
+    },
+
+    replaceURLWithHTMLLinks : (scrap) => {
+        return new Promise((resolve, reject) => {
+            
+            scrap.content = scrap.content.replace(/\n/g, '<br>');
+
+            var regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+            var url = regex.exec(scrap.content);
+            if (url) {
+                var nonUrlPart = scrap.content.substring(0, scrap.content.indexOf(url[0]));
+                var urlPart = scrap.content.substring(scrap.content.indexOf(url[0]));
+                var urlPart = urlPart.replace(url[0], `<a target="_blank" href="${url[0]}">${url[0]}</a>`);
+                scrap.content = nonUrlPart + urlPart;
+            }
+            resolve(scrap);
+            reject(new Error('Error while replacing URL with HTML links'));
+        })
     }
 
 }
+
+
+
+
+
+// var processMessageContent = (content) => {
+//     var regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+//     var url = regex.exec(content);
+//     if (url) {
+//         var nonUrlPart = content.substring(0, content.indexOf(url[0]));
+//         var urlPart = content.substring(content.indexOf(url[0]));
+//         var urlPart = urlPart.replace(url[0], `<a target="_blank" href="${url[0]}">${url[0]}</a>`);
+//         content = nonUrlPart + urlPart;
+//     }
+//     return content;
+// }

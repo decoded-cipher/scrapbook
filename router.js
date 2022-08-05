@@ -25,8 +25,10 @@ router.get('/', (req, res) => {
 
         await scraps.forEach(x => {
             helper.decideAttachmentType(x).then((x) => {
-                // console.log(scraps);
-            })
+                helper.replaceURLWithHTMLLinks(x).then((x) => {
+                    // console.log(x);
+                });
+            });
         });
         
         metadata = {
