@@ -3,10 +3,6 @@ var ago = require('s-ago');
 
 module.exports = {
 
-    getVisitorId: (visitorId) => {
-        return visitorId;
-    },
-
     getAllScraps : () => {
         return new Promise((resolve, reject) => {
             config.ScrapData.orderByChild("status").equalTo(1).once('value', (snapshot) => {
@@ -16,6 +12,7 @@ module.exports = {
         })
     },
 
+    
     getScrapById : (id) => {
         return new Promise((resolve, reject) => {
             config.ScrapData.child(id).once('value', (snapshot) => {
@@ -25,6 +22,7 @@ module.exports = {
         })
     },
 
+    
     decideAttachmentType : (x) => {
         return new Promise((resolve, reject) => {
             x.ago = ago(new Date(x.createdAt));
@@ -47,6 +45,7 @@ module.exports = {
         })
     },
 
+    
     postScrapLikesCounter : (scrap) => {
         return new Promise( async (resolve, reject) => {
 
@@ -86,6 +85,7 @@ module.exports = {
         })
     },
 
+    
     generateScrapMetaData : (scrap) => {
         return new Promise((resolve, reject) => {
             metadata = {
@@ -100,6 +100,7 @@ module.exports = {
         })
     },
 
+    
     replaceURLWithHTMLLinks : (scrap) => {
         return new Promise((resolve, reject) => {
             
@@ -116,22 +117,18 @@ module.exports = {
             resolve(scrap);
             reject(new Error('Error while replacing URL with HTML links'));
         })
+    },
+
+    
+    generateLikeCountMessage : (scrap, visitorId) => {
+        return new Promise((resolve, reject) => {
+            
+            if (scrap.likesCount) {
+                scrap.likeMessage = `${scrap.likesCount} people liked`;
+            }
+
+            resolve(scrap);
+            reject(new Error('Error while generating relative like count'));
+        })
     }
-
 }
-
-
-
-
-
-// var processMessageContent = (content) => {
-//     var regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-//     var url = regex.exec(content);
-//     if (url) {
-//         var nonUrlPart = content.substring(0, content.indexOf(url[0]));
-//         var urlPart = content.substring(content.indexOf(url[0]));
-//         var urlPart = urlPart.replace(url[0], `<a target="_blank" href="${url[0]}">${url[0]}</a>`);
-//         content = nonUrlPart + urlPart;
-//     }
-//     return content;
-// }
