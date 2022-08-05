@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="card-body">
-                            <p class="card-text">{{this.content}}</p>
+                            <p class="card-text">{{{this.content}}}</p>
                         </div>
 
                         {{#if this.isImage}}
@@ -40,6 +40,7 @@
                         {{/if}}
 
                         <div class="card-footer">
+                            <small id="likeMessage_{{this._id}}" class="text-muted">{{this.likeMessage}}</small>
                             <div class="row my-3">
                                 <div class="col">
                                     <button class="btn btn-primary py-2" onclick="LikesUpdater( '{{this._id}}' )">
@@ -70,15 +71,12 @@
                 visitorId = result.visitorId;
                 localStorage.setItem('visitorId', visitorId);
 
-                // send visitorId to server
                 fetch('/', {
-                    method: 'POST',
+                    method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        visitorId: visitorId
-                    })
+                        'Content-Type': 'application/json',
+                        'visitorid': visitorId
+                    }
                 })
                 // console.log(visitorId)
             })
@@ -97,9 +95,11 @@
                 success: (response) => {
                     if (response <= 0) {
                         $('#' + id).remove();
+                        $('#likeMessage_' + id).remove();
                         location.reload();
                     } else {
                         $('#' + id).text(response);
+                        $('#likeMessage_' + id).text(`${response} people liked`);
                     }
                 }
             });

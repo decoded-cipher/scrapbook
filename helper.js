@@ -3,10 +3,6 @@ var ago = require('s-ago');
 
 module.exports = {
 
-    getVisitorId: (visitorId) => {
-        return visitorId;
-    },
-
     getAllScraps : () => {
         return new Promise((resolve, reject) => {
             config.ScrapData.orderByChild("status").equalTo(1).once('value', (snapshot) => {
@@ -16,6 +12,7 @@ module.exports = {
         })
     },
 
+    
     getScrapById : (id) => {
         return new Promise((resolve, reject) => {
             config.ScrapData.child(id).once('value', (snapshot) => {
@@ -25,13 +22,17 @@ module.exports = {
         })
     },
 
+    
     decideAttachmentType : (x) => {
         return new Promise((resolve, reject) => {
             x.ago = ago(new Date(x.createdAt));
-            if (x.attachment.type == 'png' || x.attachment.type == 'jpg' || x.attachment.type == 'jpeg' || x.attachment.type == 'gif') {
-                x.isImage = true;
-            } else if (x.attachment.type == 'mp4') {
-                x.isVideo = true;
+
+            if (x.attachment) {
+                if (x.attachment.type == 'png' || x.attachment.type == 'jpg' || x.attachment.type == 'jpeg' || x.attachment.type == 'gif') {
+                    x.isImage = true;
+                } else if (x.attachment.type == 'mp4') {
+                    x.isVideo = true;
+                }
             }
 
             // check if x.content has any url, then return the url
@@ -44,6 +45,7 @@ module.exports = {
         })
     },
 
+    
     postScrapLikesCounter : (scrap) => {
         return new Promise( async (resolve, reject) => {
 
@@ -83,6 +85,7 @@ module.exports = {
         })
     },
 
+    
     generateScrapMetaData : (scrap) => {
         return new Promise((resolve, reject) => {
             metadata = {
@@ -95,6 +98,37 @@ module.exports = {
             resolve(metadata);
             reject(new Error('Error while generating metadata'));
         })
-    }
+    },
 
+    
+    replaceURLWithHTMLLinks : (scrap) => {
+        return new Promise((resolve, reject) => {
+            
+            scrap.content = scrap.content.replace(/\n/g, '<br>');
+
+            var regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+            var url = regex.exec(scrap.content);
+            if (url) {
+                var nonUrlPart = scrap.content.substring(0, scrap.content.indexOf(url[0]));
+                var urlPart = scrap.content.substring(scrap.content.indexOf(url[0]));
+                var urlPart = urlPart.replace(url[0], `<a target="_blank" href="${url[0]}">${url[0]}</a>`);
+                scrap.content = nonUrlPart + urlPart;
+            }
+            resolve(scrap);
+            reject(new Error('Error while replacing URL with HTML links'));
+        })
+    },
+
+    
+    generateLikeCountMessage : (scrap, visitorId) => {
+        return new Promise((resolve, reject) => {
+            
+            if (scrap.likesCount) {
+                scrap.likeMessage = `${scrap.likesCount} people liked`;
+            }
+
+            resolve(scrap);
+            reject(new Error('Error while generating relative like count'));
+        })
+    }
 }

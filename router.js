@@ -8,11 +8,11 @@ var urlencodedParser = bodyParser.urlencoded({
 
 var helper = require('./helper');
 
-router.post('/', urlencodedParser, (req, res) => {
-    helper.getVisitorId(req.body.visitorId);
-});
+router.get('/', urlencodedParser, (req, res) => {
+    
+    var visitorId = req.headers.visitorid;
+    // console.log(visitorId);
 
-router.get('/', (req, res) => {
     helper.getAllScraps().then(async (scraps) => {
 
         var scraps = Object.keys(scraps).map((key) => {
@@ -25,8 +25,14 @@ router.get('/', (req, res) => {
 
         await scraps.forEach(x => {
             helper.decideAttachmentType(x).then((x) => {
-                // console.log(scraps);
-            })
+                helper.replaceURLWithHTMLLinks(x).then((x) => {
+                    
+                    helper.generateLikeCountMessage(x, visitorId).then((x) => {
+                        // console.log(x);
+                    });
+
+                });
+            });
         });
         
         metadata = {
